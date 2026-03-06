@@ -1,0 +1,109 @@
+{
+  "metadata": {
+    "metrics_instance_unique_id": "c51090d9-4807-4cea-8e08-e3d8bb6a5647",
+    "model_suffix": "Gemini3Flash_v1",
+    "source_count": 22,
+    "regime_classification": "Tradable Divergence",
+    "timestamp": "2026-02-28T06:00:00Z"
+  },
+  "global_metrics": {
+    "hds": 78,
+    "vpi": 0.79,
+    "ndi": 0.81,
+    "lfi": 0.71,
+    "sentiment_score": -1.4,
+    "ccs": 0.69,
+    "cxod": 0.39,
+    "nlli": -0.20,
+    "psi": 8.7
+  },
+  "strategic_filters": {
+    "cockroach_risk_found": true,
+    "cockroach_description": "Private credit redemption stress confirmed: Invico Capital calls investors to manage exodus risk; Bloomberg reports 'Cockroach' credit woes spreading to bank balance sheets via AI infrastructure loan exposure (CoreWeave, neocloud). Redemption queues in LP structures signal illiquidity spreading beyond public markets.",
+    "regime_decoupling_detected": true,
+    "regime_decoupling_description": "Gold ($5,247, +1.03%) and long-duration Treasuries rising simultaneously while equities sell off — historically consistent with stagflation fear, but unusual pairing with a still-inverted short end. Additionally, Bitcoin ETF inflows of $1.1bn (prior 3 days) coexist with BTC spot price -9% on Iran shock — institutional accumulation diverging from spot retail panic, a structural decoupling.",
+    "value_profile": "Extraction"
+  },
+  "driver_articles": [
+    {
+      "title": "Iran War / Strait of Hormuz Oil Supply Shock",
+      "impact_score_ndi": 0.94,
+      "sentiment": -1.8,
+      "velocity_nlli": 0.85,
+      "gics": {
+        "code": "10102030",
+        "sector": "Energy",
+        "sub_industry": "Oil & Gas Exploration & Production"
+      },
+      "trade_logic": {
+        "action": "LONG",
+        "instruments": ["XOP", "OXY", "CVX", "USO calls 30-day"],
+        "invalidation_point": "Confirmed Iran-US ceasefire agreement or Hormuz shipping lanes declared reopened by USCG."
+      }
+    },
+    {
+      "title": "AI Infrastructure Capex Doubt — Nvidia / CoreWeave Correction",
+      "impact_score_ndi": 0.86,
+      "sentiment": -1.2,
+      "velocity_nlli": -0.60,
+      "gics": {
+        "code": "45301020",
+        "sector": "Information Technology",
+        "sub_industry": "Semiconductors"
+      },
+      "trade_logic": {
+        "action": "SHORT",
+        "instruments": ["CRWV puts 20% OTM 30-day", "SMCI puts", "SOXX short via puts"],
+        "invalidation_point": "Hyperscaler (MSFT, GOOGL, AMZN) confirms unchanged or increased AI capex guidance in next earnings call."
+      }
+    },
+    {
+      "title": "US Stagflation Signal + Fed Independence Crisis (Powell DOJ)",
+      "impact_score_ndi": 0.77,
+      "sentiment": -1.6,
+      "velocity_nlli": 0.40,
+      "gics": {
+        "code": "40101010",
+        "sector": "Financials",
+        "sub_industry": "Diversified Banks"
+      },
+      "trade_logic": {
+        "action": "LONG_VOL",
+        "instruments": ["SRVR puts", "TLT calls (flight to duration)", "TIPS ETF — SCHP", "GLD calls"],
+        "invalidation_point": "DOJ investigation confirmed as political pressure campaign only (no grand jury); PCE prints below 2.5% in next release."
+      }
+    },
+    {
+      "title": "Trump Tariff Regime Collapse — Supreme Court Ruling",
+      "impact_score_ndi": 0.68,
+      "sentiment": 0.4,
+      "velocity_nlli": 0.55,
+      "gics": {
+        "code": "20103010",
+        "sector": "Industrials",
+        "sub_industry": "Industrial Conglomerates"
+      },
+      "trade_logic": {
+        "action": "PAIRS",
+        "instruments": ["Long JETS (airlines, tariff cost relief)", "Short STLD / NUE (US steel loses tariff protection)"],
+        "invalidation_point": "Supreme Court ruling stayed pending appeal; tariff enforcement resumes under emergency order."
+      }
+    },
+    {
+      "title": "Gold Structural Breakout + Private Credit Stress Rotation",
+      "impact_score_ndi": 0.58,
+      "sentiment": 1.2,
+      "velocity_nlli": 0.70,
+      "gics": {
+        "code": "15104030",
+        "sector": "Materials",
+        "sub_industry": "Gold"
+      },
+      "trade_logic": {
+        "action": "LONG",
+        "instruments": ["WPM", "RGLD", "GLD call spreads $525/$545 45-day", "AEM"],
+        "invalidation_point": "Gold spot closes below $4,900 on two consecutive sessions; private credit redemption wave resolves without contagion."
+      }
+    }
+  ]
+}
