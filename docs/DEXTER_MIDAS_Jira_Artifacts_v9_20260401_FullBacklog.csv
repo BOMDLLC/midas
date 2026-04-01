@@ -1,0 +1,145 @@
+"DEXTER / MIDAS — Jira Import: Full Program Backlog (v9, 2026-04-01)",,,,,,,,,,,
+Source: DEXTER_MIDAS_WBS_v8_FINAL.csv + Wave 8 agentic stack additions | Team 0: SE-Infra added | Wave 7 reassigned to Data Foundry | 20 new Wave 8 stories (64 pts) | Total: 169 stories,,,,,,,,,,,
+Issue ID,,,,,,,,,,,
+▶  WAVE 0  —  Team 0: SE-Infra (CRON) + Assurance & Ops,,,,,,,,,,,
+CRON-1,Story,MIDAS-3,Infrastructure,WAVE 0,Team 0: SE-Infra,"Fix cron UTC offset: 45 5 → 10 45 (fires at 01:45 ET, not 05:45 ET)",High,OPEN,1,wave-0,Current: 45 5 = 01:45 ET. Target: 10 45 * * 1-5 UTC = 05:45 ET. Fix before next market day.
+CRON-2,Story,MIDAS-4,Security,WAVE 0,Team 0: SE-Infra,Remove API keys from cron prompt body — move to env vars,Critical,OPEN,2,"wave-0,security","FINNHUB_KEY, FRED_API_KEY, SLACK_WEBHOOK in plaintext. Move to Azure VM env vars or Key Vault."
+CRON-3,Story,MIDAS-4,Security,WAVE 0,Team 0: SE-Infra,Fix SLACK_WEBHOOK double-fire — remove from cron prompt body,High,OPEN,1,"wave-0,security",SLACK_WEBHOOK in both prompt body and delivery config. Remove from prompt body.
+CRON-4,Story,MIDAS-3,Infrastructure,WAVE 0,Team 0: SE-Infra,"Add dexter_notebooklm_upload.py as cron step 3 (after ETL, before Phase 0)",High,OPEN,1,wave-0,HEARTBEAT 05:55 step. Must run after ETL creates files and before Phase 0 reads them.
+CRON-5,Story,MIDAS-3,Infrastructure,WAVE 0,Team 0: SE-Infra,Add OpenClaw Phase 0-5 as cron step 6,High,OPEN,2,"wave-0,agent-integrated",Phase 0→0.5→1→2→3→4→5 must be scheduled after NotebookLM upload completes.
+CRON-6,Story,MIDAS-3,Infrastructure,WAVE 0,Team 0: SE-Infra,Add DAILY_STATE.md update as cron step 7 (after Phase 5),Med,OPEN,1,wave-0,Phase 5 output feeds DAILY_STATE.md. Currently unscheduled.
+CRON-7,Story,MIDAS-3,Infrastructure,WAVE 0,Team 0: SE-Infra,Rename feedmd_config_03-01-2026.yml to date-agnostic name,Med,OPEN,1,wave-0,Date-stamped config breaks reproducibility.
+CRON-8,Story,MIDAS-3,Infrastructure,WAVE 0,Team 0: SE-Infra,Restrict cron to weekdays (1-5) and confirm weekend intent,Med,OPEN,1,wave-0,Currently * * * = 7 days/week. Weekend ETL produces stale data.
+DOCS-AGENTS,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,"AGENTS.md v1.1 — model, ETL spec, conflict logic, phase order",Med,DONE,2,wave-0,Done.
+DOCS-HEARTBEAT,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,HEARTBEAT.md v1.1 — 11 fixes,Med,DONE,2,wave-0,Done.
+DOCS-MACRO,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,MACRO_TIERS v3.2 — ETL 1.7.5.6 sync,Med,DONE,2,wave-0,Done.
+DOCS-MANIFEST,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,MIDAS_SENTINEL_PROMPT_LIBRARY v2026.4 — 3 corrections,Med,DONE,2,wave-0,Done.
+DOCS-NAMING,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,Naming standardisation — Dexter ETL / Midas Sentinel,Med,DONE,1,wave-0,Done.
+DOCS-OC-SOUL,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,OPENCLAW_SOUL 2026.3.22 — 6 logic fixes,Med,DONE,2,wave-0,Done.
+DOCS-REGIME,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,REGIME_RULES v2.3 — Dollar Decomp wired into weighting,Med,DONE,2,wave-0,Done.
+DOCS-SOUL,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,SOUL v2.4 — §3.1 Dollar Decomp supplement,Med,DONE,2,wave-0,Done.
+ETL-1.7.5.5,Story,MIDAS-1,ETL Bug Fixes,WAVE 0,Assurance & Ops,CFTC Layer 4 — partial 404 fix (Socrata SODA endpoint),High,DONE,1,wave-0,Done.
+ETL-1.7.5.6,Story,MIDAS-1,ETL Bug Fixes,WAVE 0,Assurance & Ops,CFTC Layer 4 — confirmed live endpoint /api/v3/,High,DONE,2,wave-0,Done.
+SYNC-1.3,Story,MIDAS-2,Docs,WAVE 0,Assurance & Ops,DEXTER_SYNC_CONTRACT v1.3 — CFTC endpoint + version pairing,Med,DONE,1,wave-0,Done.
+▶  WAVE 1  —  Assurance & Ops (Error Visibility),,,,,,,,,,,
+DL-1,Story,MIDAS-5,Dead-Letter Queue,WAVE 1,Assurance & Ops,Define DeadLetterEntry dataclass and criticality map,High,DONE,3,wave-1,Done.
+DL-2a,Story,MIDAS-5,Dead-Letter Queue,WAVE 1,Assurance & Ops,Thread dead-letter through run_fred() and run_treasury() (M1/M2),High,DONE,2,wave-1,Done.
+DL-2b,Story,MIDAS-5,Dead-Letter Queue,WAVE 1,Assurance & Ops,Thread dead-letter through run_market() and run_fed_and_dtcc() (M3/M5),High,DONE,2,wave-1,Done.
+DL-2c,Story,MIDAS-5,Dead-Letter Queue,WAVE 1,Assurance & Ops,Thread dead-letter through run_news() and run_calendars() (M7/M6),High,OPEN,2,wave-1,Two remaining function signatures need dead_letters param.
+DL-3,Story,MIDAS-5,Dead-Letter Queue,WAVE 1,Assurance & Ops,Write FAILED_{date}.json + DATA_FAILURES block in TIER_AUDIT,High,OPEN,3,"wave-1,gate",CONVICTION_CAP reduced 0.2 per critical failure (floor 0.2). ✅ PHASE 1 GATE.
+OO-1,Story,MIDAS-6,Offline Observer,WAVE 1,Assurance & Ops,Define OBSERVATION_RULES dict per module,Med,DONE,2,wave-1,Done.
+OO-2,Story,MIDAS-6,Offline Observer,WAVE 1,Assurance & Ops,Implement run_offline_observer() as Module 9.5,High,OPEN,5,wave-1,"Runs after all modules, before build_tier_audit()."
+OO-3,Story,MIDAS-6,Offline Observer,WAVE 1,Assurance & Ops,Inject observation results into TIER_AUDIT and completion banner,High,OPEN,3,wave-1,Pass observations to build_tier_audit(). Add DATA_QUALITY_REPORT section.
+▶  WAVE 2  —  Assurance & Ops (Quality Gates / AWAP),,,,,,,,,,,
+AW-1,Story,MIDAS-7,AWAP Pattern,WAVE 2,Assurance & Ops,Implement staging directory and promote() helper,High,OPEN,3,wave-2,Staging dir pattern for atomic promotes.
+AW-2,Story,MIDAS-7,AWAP Pattern,WAVE 2,Assurance & Ops,Implement pre-write input audit (Audit step 1),High,OPEN,8,wave-2,"audit_input(module, data, rules). BLOCKED BY: DL-3."
+AW-3,Story,MIDAS-7,AWAP Pattern,WAVE 2,Assurance & Ops,Implement post-write output audit (Audit step 2),High,OPEN,5,wave-2,"audit_output(staged_path, rules). Pass → promote(). Fail → AUDIT_FAILED."
+AW-4,Story,MIDAS-7,AWAP Pattern,WAVE 2,Assurance & Ops,Implement three audit failure strategies (Fail/Dispatch/Ignore),High,OPEN,5,wave-2,Per-module configurable strategy.
+SC-1,Story,MIDAS-8,Schema Compat,WAVE 2,Assurance & Ops,Define expected schemas for all external API responses,High,OPEN,3,wave-2,SCHEMAS dict in schema_registry.py.
+SC-2,Story,MIDAS-8,Schema Compat,WAVE 2,Assurance & Ops,Implement validate_schema() and inject into fetch steps,High,OPEN,5,wave-2,Three outcomes: compatible; forward-compatible; backward-incompatible.
+SC-3,Story,MIDAS-8,Schema Compat,WAVE 2,Assurance & Ops,Write SCHEMA_DRIFT report and auto-update optional field registry,Med,OPEN,3,wave-2,SCHEMA_DRIFT_{date}.txt when new optionals appear.
+▶  WAVE 3  —  Data Foundry (Idempotency),,,,,,,,,,,
+ID-1,Story,MIDAS-9,Idempotency,WAVE 3,Data Foundry,Define idempotency granularity and document the contract,High,DONE,3,wave-3,Done.
+ID-2,Story,MIDAS-9,Idempotency,WAVE 3,Data Foundry,Fix FRED_SUMMARY append bug — most urgent idempotency violation,High,DONE,2,wave-3,Done.
+ID-3,Story,MIDAS-9,Idempotency,WAVE 3,Data Foundry,Implement atomic write via stage-then-rename (write_atomic),High,OPEN,5,"wave-3,gate",✅ PHASE 1 GATE. BLOCKED BY: AW-2.
+ID-4,Story,MIDAS-9,Idempotency,WAVE 3,Data Foundry,Add run MANIFEST.json with schema version and ETL script hash,High,OPEN,5,wave-3,Schema version + SHA-256 of ETL script in manifest.
+ID-5,Story,MIDAS-9,Idempotency,WAVE 3,Data Foundry,Make EDGAR incremental with delta-column state file (edgar_state.json),Med,OPEN,5,wave-3,14-day backfill window. Eliminates ghost-filing problem.
+ID-6,Story,MIDAS-9,Idempotency,WAVE 3,Data Foundry,--force-rerun flag and idempotency test procedure,Med,OPEN,3,wave-3,Same date rerun produces binary-identical output.
+▶  WAVE 4  —  Sentinel Alpha (Scrapling / Corpus Enrichment),,,,,,,,,,,
+SCRAP-1,Story,MIDAS-10,Scrapling,WAVE 4,Sentinel Alpha,Refactor scrapling_news.py — Category A sources only,High,OPEN,5,wave-4,"BoJ, PBOC, BoE, BCB, RBI, SAMA, Caixin, Risk.net, Trading Economics, Al Jazeera."
+SCRAP-2,Story,MIDAS-10,Scrapling,WAVE 4,Sentinel Alpha,Write merge_scrapling_into_corpus.py — append §SCRAPLING_SUPPLEMENT,High,OPEN,5,wave-4,Append to NEWS_CORPUS_{date}.txt before NotebookLM upload.
+SCRAP-3,Story,MIDAS-10,Scrapling,WAVE 4,Sentinel Alpha,Document scrapling data lineage in SYNC_CONTRACT v1.4,Med,OPEN,2,wave-4,Map Category A sources to MACRO_TIERS tiers.
+SCRAP-4,Story,MIDAS-10,Scrapling,WAVE 4,Sentinel Alpha,Wire scrapling Category A sources into MACRO_TIERS tier routing,Med,OPEN,3,wave-4,Update MACRO_TIERS v3.3.
+▶  WAVE 5  —  Sentinel Alpha (GMISR v2.0 / Scored Metrics),,,,,,,,,,,
+DELTA-1,Story,MIDAS-12,Model Delta,WAVE 5,Sentinel Alpha,Add Claude (Anthropic API) as Lineage B agent in AGENTS.md,High,OPEN,3,wave-5,Claude as second lineage alongside Gemini.
+DELTA-2,Story,MIDAS-12,Model Delta,WAVE 5,Sentinel Alpha,Write Phase 3.5 delta synthesiser prompt,High,OPEN,5,wave-5,Cross-model comparison prompt.
+GMISR-1,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add GICS codes to SENTENCE_DIRECTIVE setups (Phase 4 prompt),Med,OPEN,2,wave-5,Every driver must carry full GICS code.
+GMISR-2,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add qualitative invalidation condition per driver,Med,OPEN,2,wave-5,INVALIDATION: [specific condition]. Phase 4 prompt.
+GMISR-3,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add Catalyst Map 24h/48h/72h as Block 10 to Phase 5 GMISR schema,High,OPEN,3,wave-5,Forward-looking catalyst timeline.
+GMISR-4,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add structured pair trade output to Phase 5,High,OPEN,3,wave-5,Long/Short with GICS sector logic.
+GMISR-5,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add per-claim source citation (Block 11 Data Lineage) to Phase 5,Med,OPEN,2,wave-5,Cite source per major claim.
+GMISR-6,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add NDI (Narrative Divergence Index) to Phase 3,Med,OPEN,2,wave-5,Count distinct narrative clusters 0-1 score.
+GMISR-7,Story,MIDAS-11,GMISR v2.0,WAVE 5,Sentinel Alpha,Add Narrative Velocity / NLLI scoring to Phase 3,Med,OPEN,3,wave-5,Velocity of emerging vs established clusters.
+SCORE-1,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement HDS auto-scoring in run_news(),High,OPEN,5,wave-5,Headline Density Score per tier.
+SCORE-2,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement VPI (Volatility Pricing Index) in build_tier_audit(),High,OPEN,3,wave-5,VIX_spot / 5-day realized vol proxy.
+SCORE-3,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement LFI (Liquidity Friction Index) in build_tier_audit(),High,OPEN,5,wave-5,FRA-OIS + BDC discount + EDGAR 8-K withdrawal count.
+SCORE-4,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement NLLI (Narrative Lag-Lead Indicator) in run_news(),High,OPEN,5,wave-5,Compare tier headline counts to prior 5-run rolling average.
+SCORE-5,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement CCS (Cross-Correlation Score) in run_market(),Low,OPEN,5,wave-5,Correlation between ratio-pair movements vs broad index.
+SCORE-6,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement CXOD (Cross-Asset Order Delta) in run_market(),Low,OPEN,3,wave-5,(USO 1d return) - (QQQ 1d return) signed flow divergence.
+SCORE-7,Story,MIDAS-13,Scored Metrics,WAVE 5,Sentinel Alpha,Implement PSI (Policy Sensitivity Index) in build_tier_audit(),Low,OPEN,5,wave-5,GDP revision + FRA-OIS + high-impact events + guidance revisions.
+IQ-5,Story,MIDAS-14,Advanced Signals,WAVE 5,Sentinel Alpha,COT/CFTC positioning (Module 6b Layer 4) — LIVE,Med,DONE,3,wave-5,Done.
+T4-8,Story,MIDAS-14,Advanced Signals,WAVE 5,Sentinel Alpha,Gold/NASDAQ absolute >0.30 flag in TIER_AUDIT,Med,OPEN,2,wave-5,Ratio flag.
+T4-10,Story,MIDAS-14,Advanced Signals,WAVE 5,Sentinel Alpha,RATIO_SIGNALS named section in TIER_AUDIT — schema 2.0.0.0,Med,OPEN,3,wave-5,Named section for all ratio signals.
+▶  WAVE 6  —  Quant Lab (ML / Parquet) + Assurance & Ops (Observability),,,,,,,,,,,
+OB-1,Story,,Observability,WAVE 6,Assurance & Ops,SLA monitoring — per-module timing + elapsed alert (SLA Misses Detector),Med,OPEN,3,wave-6,"Total run > 10min = WARNING, > 20min = CRITICAL Slack."
+OB-2,,,,,,,,,,,
+OB-3,Story,,Observability,WAVE 6,Assurance & Ops,Filter Interceptor — NEWS_CORPUS UNCLASSIFIED rate per feed,Med,OPEN,2,wave-6,Flag feeds >40% UNCLASSIFIED for quality review.
+OB-4,Story,,Observability,WAVE 6,Assurance & Ops,Data retention policy — TTL for raw ETL outputs + cleanup script,Low,OPEN,2,wave-6,30-day TTL for raw; indefinite for TIER_AUDIT and Parquet.
+OB-5,Story,,Observability,WAVE 6,Assurance & Ops,Fine-grained lineage SOURCE_MAP — shared scope with IQ-7,Low,OPEN,1,wave-6,source_hash per Parquet row linking to ETL run.
+P1-1,Story,,Parquet snapshot layer,WAVE 6,Quant Lab,Add write_parquet_snapshot() to ETL main(),High,OPEN,3,wave-6,28 typed columns partitioned by run_date. ETL bump to 1.8.0.0.
+P1-2,Story,,Parquet snapshot layer,WAVE 6,Quant Lab,Define and lock GMISR_METRICS Parquet schema v1.0,High,OPEN,2,wave-6,schema_registry.py entry. Schema version in MANIFEST.json.
+P1-3,Story,,Parquet snapshot layer,WAVE 6,Quant Lab,Add phase1_agreement and actual_spx_5d ML label columns,High,OPEN,3,wave-6,BLOCKED BY: P1-1.
+P1-4,Story,,Parquet snapshot layer,WAVE 6,Quant Lab,Write backfill_parquet.py — populate history from existing run archive,Med,OPEN,5,wave-6,Backfill from existing TIER_AUDIT archive.
+P2-1,Story,,DuckDB analytics layer,WAVE 6,Sentinel Alpha,Set up DuckDB + Evidence.dev local dashboard,High,OPEN,3,wave-6,Local analytics layer. BLOCKED BY: P1-1.
+P2-2,Story,,DuckDB analytics layer,WAVE 6,Sentinel Alpha,Build 30/60/90-day regime and metrics dashboard,Med,OPEN,3,wave-6,Regime timeline + scored metrics heatmap.
+P3-1,Story,,Feature store (ML bridge),WAVE 6,Quant Lab,Implement Feast feature store — point-in-time correct training sets,Low,OPEN,5,wave-6,"pip install feast. Prerequisite for P4-1. BLOCKED BY: P1-1, P1-2."
+P4-1,Story,,ML regime classifier,WAVE 6,Quant Lab,Build regime classifier v1.0 — HMM on scored metrics,Low,OPEN,8,"wave-6,gate",BLOCKED BY: P3-1. Kelly activation gate (≥30 labelled runs). ✅ PHASE 2 GATE.
+P4-2,Story,,ML regime classifier,WAVE 6,Quant Lab,Build SENTENCE_DIRECTIVE outcome tracker — P&L attribution log,Med,OPEN,5,wave-6,trade_log.parquet for Kelly gate.
+P4-3,Story,,ML regime classifier,WAVE 6,Quant Lab,Kelly fraction activation and SOUL.md v3.0 update,Med,OPEN,2,"wave-6,gate",Requires ≥30 trades in log. ✅ KELLY GATE.
+▶  WAVE 7  —  Data Foundry (Medallion Architecture / Databricks),,,,,,,,,,,
+ARCH-1,Story,MIDAS-133,Medallion Architecture,WAVE 7,Data Foundry,Provision Databricks workspace and Unity Catalog — midas.bronze/silver/gold namespaces,Critical,OPEN,3,"wave-7,gate",✅ GATES ALL WAVE 7. midas catalog exists. ETL SP WRITE bronze. Claude MCP SP READ gold only.
+ARCH-2,,,,,,,,,,,
+ARCH-3,Story,MIDAS-133,Medallion Architecture,WAVE 7,Data Foundry,Define temporal alignment standard — ISO-8601 UTC across all layers,High,OPEN,2,wave-7,timestamp_normalise() utility. Documented in SYNC_CONTRACT v1.5. BLOCKED BY: ARCH-1.
+BRNZ-1,Story,MIDAS-133,Bronze Layer,WAVE 7,Data Foundry,Register ETL flat-file outputs as Delta Lake Bronze tables in Unity Catalog,High,OPEN,5,wave-7,Immutable Bronze. BLOCKED BY: ARCH-1.
+BRNZ-2,Story,MIDAS-133,Bronze Layer,WAVE 7,Data Foundry,Add _rescued_data column handling for schema mismatches at Bronze ingest,High,OPEN,3,wave-7,"Schema drift to _rescued_data, not pipeline crash. BLOCKED BY: BRNZ-1."
+BRNZ-3,Story,MIDAS-133,Bronze Layer,WAVE 7,Data Foundry,Implement calculation hash (Gate 4) on Bronze model outputs,Critical,OPEN,3,wave-7,SHA-256 hash of decision fields. CALC_DRIFT alert on divergence. BLOCKED BY: BRNZ-1.
+SILV-1,Story,MIDAS-133,Silver Layer,WAVE 7,Data Foundry,Build Silver DLT pipeline — refined_market_prices streaming table,High,OPEN,5,wave-7,"BLOCKED BY: BRNZ-1, ARCH-2, ARCH-3."
+SILV-2,Story,MIDAS-133,Silver Layer,WAVE 7,Data Foundry,Build Silver DLT pipeline — sovereign_stress_monitor streaming table,High,OPEN,5,wave-7,BLOCKED BY: SILV-1.
+SILV-3,Story,MIDAS-133,Silver Layer,WAVE 7,Data Foundry,Build Silver DLT pipeline — settlement_risk_indices streaming table,High,OPEN,3,wave-7,BLOCKED BY: SILV-1.
+SILV-4,Story,MIDAS-133,Silver Layer,WAVE 7,Data Foundry,Implement Great Expectations suite — 7 named expectations against ETL file types,High,OPEN,8,"wave-7,gate",✅ GATES GOLD LAYER. GX pass ≥99.5% required. BLOCKED BY: SILV-1.
+GOLD-1,Story,MIDAS-133,Gold Layer,WAVE 7,Data Foundry,Build mkt_regime_final Gold materialized view — REGIME_RULES.md as code,High,OPEN,5,wave-7,BLOCKED BY: SILV-4.
+GOLD-2,Story,MIDAS-133,Gold Layer,WAVE 7,Data Foundry,Build risk_sentinel_status Gold materialized view — SOUL.md §3/§4 as code,High,OPEN,5,wave-7,BLOCKED BY: SILV-4.
+GOLD-3,Story,MIDAS-133,Gold Layer,WAVE 7,Data Foundry,Build liquidity_gate Gold materialized view — MACRO_TIERS §Tier -2 as code,Med,OPEN,3,wave-7,BLOCKED BY: SILV-4.
+GOLD-4,Story,MIDAS-133,Gold Layer,WAVE 7,Data Foundry,Build backtest_integrity Gold table — DAILY_STATE.md shadow journal as first-class asset,Med,OPEN,3,wave-7,"BLOCKED BY: SILV-4, P1-3."
+GOLD-5,Story,MIDAS-133,Gold Layer,WAVE 7,Data Foundry,Build sync_audit Gold table — DEXTER_SYNC_CONTRACT.md compliance as code,Med,OPEN,2,wave-7,BLOCKED BY: SILV-4.
+MCP-1,Story,MIDAS-133,Claude MCP Integration,WAVE 7,Data Foundry,Wire Claude MCP Databricks connector to Gold tables — read-only service principal,High,OPEN,3,"wave-7,agent-integrated","Claude becomes auditor not calculator. BLOCKED BY: GOLD-1, GOLD-2."
+MCP-2,Story,MIDAS-133,Claude MCP Integration,WAVE 7,Data Foundry,Add Gold table query examples to Phase 0 and Phase 2 prompts in manifest,Med,OPEN,2,wave-7,BLOCKED BY: MCP-1.
+SYNC-4,Story,MIDAS-133,Medallion Architecture,WAVE 7,Data Foundry,Update SYNC_CONTRACT v1.5 — Medallion layer mapping and temporal alignment standard,Med,OPEN,2,wave-7,BLOCKED BY: ARCH-3.
+SYNC-5,Story,MIDAS-133,Medallion Architecture,WAVE 7,Data Foundry,Annotate existing Wave 2/3/6 items with Medallion layer equivalence notes,Low,OPEN,1,wave-7,"Maps AWAP→Gate1, Parquet→Bronze, Feast→Gold etc."
+▶  WAVE 8  —  Team 0: SE-Infra (Agentic Stack: TrustGraph / OpenClaw / OpenWolf / LMCache)  ★ NEW,,,,,,,,,,,
+TGRAPH-1,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Provision TrustGraph instance — Docker Compose deployment on local/Azure node,High,OPEN,3,"wave-8,trustgraph,new",BLOCKED BY: GOLD-1. Cannot ingest regime nodes before Gold table exists. docker compose up -d.
+TGRAPH-2,,,,,,,,,,,
+TGRAPH-3,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Build Gold → TrustGraph export job — daily scheduled ingest from midas.gold.*,High,OPEN,5,"wave-8,trustgraph,new","Scheduled post-Gold cron step. Exports regime_label, conviction_cap, sec_signals to graph nodes. BLOCKED BY: TGRAPH-1, GOLD-1, GOLD-2."
+TGRAPH-4,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,"Ingest SOUL.md, REGIME_RULES.md, MACRO_TIERS.md as graph relationship edges",Med,OPEN,5,"wave-8,trustgraph,new",Foundation docs become edges: [Rule]→[enforces]→[Regime]. Enables GraphRAG reasoning over policy. BLOCKED BY: TGRAPH-2.
+TGRAPH-5,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Wire TrustGraph MCP server to OpenClaw config — context retrieval endpoint,Med,OPEN,3,"wave-8,trustgraph,agent-integrated,new",Add @trustgraph-ai/mcp-server to OpenClaw MCP config. BLOCKED BY: TGRAPH-3.
+TGRAPH-6,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Build Context Core export — midas.core package from Gold + foundation docs,Med,OPEN,3,"wave-8,trustgraph,new",trustgraph core export midas-gold. Used by OpenClaw for zero-hallucination grounding. BLOCKED BY: TGRAPH-4.
+TGRAPH-7,,,,,,,,,2,"wave-8,trustgraph,new",Daily assertion: graph[regime_label] == gold.mkt_regime_final.regime_label. Fail → Slack alert.
+OW-1,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Install and initialise OpenWolf (cytostack) in Dexter ETL repo — npm install -g openwolf && openwolf init,High,OPEN,2,"wave-8,openwolf,new",Creates .wolf/ directory. Hooks fire on every Claude Code file operation. Immediate token reduction.
+OW-2,,,,,,,,,,,
+OW-3,,,,,,,,,,,
+OW-4,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Set TTL policy for OpenWolf memory items — align with OB-4 30-day retention policy,Med,OPEN,2,"wave-8,openwolf,new",Memory TTL prevents cerebrum.md bloat. Mount .wolf/ to persistent storage. BLOCKED BY: OB-4.
+OC-1,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,"Containerise OpenClaw gateway — Docker image with env vars, no plaintext credentials",High,OPEN,3,"wave-8,openclaw,new",docker run -p 18789:18789 andreaskasper/openclaw. CRON-2 (env vars) must be DONE first. BLOCKED BY: CRON-2.
+OC-2,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,"Build MIDAS skill library v1.0 — get_regime_state, get_sec_signal, enforce_risk_policy, execute_trade_policy",High,OPEN,5,"wave-8,openclaw,agent-integrated,new",Agent skills as executable contracts. Skills query Gold only — no recomputation. BLOCKED BY: MCP-1.
+OC-3,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,"Wire OpenClaw skills to Gold tables — enforce read-only, no recomputation rule in skill definitions",High,OPEN,5,"wave-8,openclaw,agent-integrated,new","Skill constraint: NEVER recompute conviction_cap or regime_label. Always SELECT from midas.gold.*. BLOCKED BY: OC-2, TGRAPH-5."
+OC-4,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Build get_midas_consensus skill — deterministic fusion of regime + gamma + SEC signals,Med,OPEN,3,"wave-8,openclaw,new",IF regime=VOL_EXPANSION AND gamma=EXPANSION AND sec=NEGATIVE → HIGH_CONFIDENCE_SHORT. Conviction 0-1. BLOCKED BY: OC-3.
+OC-5,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Build execute_trade_policy skill — conviction gate + risk cap enforcement before any execution,Med,OPEN,3,"wave-8,openclaw,new","If regime=BLOCKED OR conviction<0.6 → block trade. Log to midas.gold.trade_log. BLOCKED BY: OC-4, GOLD-2."
+OC-6,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Wire OpenClaw to TrustGraph MCP for context retrieval during skill execution,Med,OPEN,2,"wave-8,openclaw,trustgraph,new","OpenClaw calls TrustGraph for causal chain before trade. BLOCKED BY: TGRAPH-5, OC-3."
+LMC-1,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Evaluate LMCache deployment — benchmark KV reuse for Phase 0-5 NEWS_CORPUS multi-turn sessions,Low,OPEN,3,"wave-8,lmcache,new",Benchmark before deploying. LMCache only justified if NEWS_CORPUS re-processing cost exceeds caching overhead. BLOCKED BY: OC-1.
+LMC-2,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,"Configure LMCache vLLM endpoint — docker pull lmcache/vllm-openai, integrate with OpenClaw inference",Low,OPEN,3,"wave-8,lmcache,new",Only deploy if LMC-1 benchmark justifies. Point OpenClaw to lmcache endpoint. BLOCKED BY: LMC-1.
+NET-1,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Provision Tailscale mesh — local node + Databricks + TrustGraph + OpenClaw VM private network,Med,OPEN,2,"wave-8,infrastructure,new",Tailscale keeps stack private. No public ports. Colab test environment connects via Tailscale.
+▶  GOVERNANCE  —  Assurance & Ops (ONGOING),,,,,,,,,,,
+GOV-1,Story,MIDAS-134,Governance,GOVERNANCE,Assurance & Ops,Maintain DEXTER_SYNC_CONTRACT.md — canonical threshold + ticker registry,Med,ONGOING,1,governance,ONGOING. SYNC_CONTRACT is single source of truth.
+GOV-2,Story,MIDAS-134,Governance,GOVERNANCE,Assurance & Ops,Foundation file versioning — SOUL/MACRO_TIERS/REGIME_RULES in sync with ETL,Med,ONGOING,1,governance,ONGOING. ETL MAJOR bump requires all three foundation files updated.
+GOV-3,Story,MIDAS-134,Governance,GOVERNANCE,Assurance & Ops,NotebookLM corpus reload on MAJOR ETL version bumps,High,ONGOING,1,governance,ONGOING. MAJOR bump = Phase 0 prompt may break.
+GOV-4,Story,MIDAS-134,Governance,GOVERNANCE,Assurance & Ops,"Sync workflow enforcement — ETL TRIGGERS = canonical, foundation files = English",Med,ONGOING,1,governance,"ONGOING. ETL first, then foundation files describe the value."
+OC-5,,,,,,,,,,,
+LMC-1,,,,,,,,,,,
+LMC-2,,,,,,,,,,,
+TGRAPH-2,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,"Define MIDAS ontology schema — nodes: regime, asset, signal, filing, tier",High,OPEN,5,"wave-8,trustgraph,new","BLOCKED BY: TGRAPH-1. AC: Schema published. Nodes: Regime, Asset, Signal, Filing, Tier. Edges: enforces, implies, blocks, caused_by."
+TGRAPH-7,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Validate TrustGraph zero-hallucination: graph regime node must match midas.gold value,Low,OPEN,2,"wave-8,trustgraph,new",BLOCKED BY: TGRAPH-3. AC: Daily assertion job. If graph[regime_label] != gold.regime_label → DRIFT alert to #dexter-alerts.
+OW-2,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Populate cerebrum.md — encode SOUL.md guardrails as OpenWolf known-mistake rules,High,OPEN,3,"wave-8,openwolf,new",BLOCKED BY: OW-1. AC: cerebrum.md contains rules: (1) Never recompute conviction_cap — read midas.gold. (2) All metric outputs include model_name suffix. (3) Do not query Bronze/Silver directly for decisions. Compliance ~85-90%.
+OW-3,Story,MIDAS-200,Agentic Infra Stack,WAVE 8,Team 0: SE-Infra,Configure openwolf cron to mirror CRON-1 through CRON-8 for local dev/test,Med,OPEN,2,"wave-8,openwolf,new",BLOCKED BY: OW-1. AC: openwolf cron list shows CRON-1 through CRON-8. openwolf cron run <id> executes step locally. Enables dev testing without Azure VM.
+"Total Stories: 119  |  Total Story Points: 363  |  + Fisher-Rao FIL epic: 8 stories, 39 pts (see Fisher-Rao sheet)  |  GRAND TOTAL incl. FIL: 127 stories, 402 pts  |  Wave 8 NEW (★): 20 stories, 64 pts  |  v9 — 2026-04-01",,,,,,,,,,,
+,,,,,,,,,,,
+"▶  FISHER-RAO FIL EPIC (8 stories, 39 pts) — see 'Fisher-Rao FIL Import' sheet for full Jira import",,,,,,,,,,,
+"FIL-1 (Fisher matrix, 8pt) | FIL-2 (geom features, 5pt) | FIL-3 (schema v1.1, 3pt) | FIL-4 (gold view, 5pt) | FIL-5 (TIER_AUDIT scores, 3pt) | FIL-6 (HMM upgrade, 8pt) | FIL-7 (STRUCTURE_SHIFT, 2pt) | FIL-8 (feature pruning, 5pt)",,,,,,,,,,,
